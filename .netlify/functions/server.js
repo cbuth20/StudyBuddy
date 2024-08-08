@@ -3,7 +3,6 @@ const express = require('express');
 const serverless = require('serverless-http');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const { OpenAI } = require('openai');
 
 const app = express();
