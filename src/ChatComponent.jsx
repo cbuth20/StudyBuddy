@@ -65,7 +65,7 @@ const ChatComponent = () => {
     setChatHistory([...chatHistory, userMessage]);
 
     try {
-      const response = await fetch('/api/open-question', {
+      const response = await fetch('https://study-buddy-max.netlify.app/api/open-question', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
