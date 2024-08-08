@@ -8,12 +8,19 @@ const { OpenAI } = require('openai');
 const app = express();
 const router = express.Router();
 
+const allowedOrigins = [process.env.REDIRECT_SIGN_IN, 'http://localhost:3000'];
 
 const corsOptions = {
-    origin: process.env.REDIRECT_SIGN_IN,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-  };
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
 
