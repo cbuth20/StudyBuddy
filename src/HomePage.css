@@ -1,0 +1,6 @@
+.homepage-container{
+    display: flex;
+    gap: 16px;
+    padding: 48px;
+    justify-content: space-evenly;
+}

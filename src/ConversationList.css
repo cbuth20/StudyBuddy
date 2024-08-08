@@ -1,0 +1,29 @@
+/* ConversationList.css */
+.conversation-list {
+  max-width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.conversation-title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.conversation-summary {
+  font-size: 1em;
+  color: #555;
+}
+
+.conversation-item {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.conversation-item:last-child {
+  border-bottom: none;
+}
