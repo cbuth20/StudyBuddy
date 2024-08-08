@@ -48,7 +48,7 @@ router.post('/api/open-question', async (req, res) => {
   }
 });
 
-app.get('/api/config', (req, res) => {
+router.get('/api/config', (req, res) => {
   res.json({
     userPoolId: process.env.USER_POOL_ID,
     userPoolClientId: process.env.USER_POOL_CLIENT_ID,

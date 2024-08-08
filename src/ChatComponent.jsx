@@ -25,19 +25,22 @@ const ChatHistory = styled(Paper)(({ theme }) => ({
 }));
 
 const UserMessage = styled(ListItem)(({ theme }) => ({
-  textAlign: 'right',
-  backgroundColor: '#e0f7fa',
+  textAlign: 'left',
+  backgroundColor: theme.palette.mode === 'dark' ? '#2c3e50' : '#e0f7fa',
+  color: theme.palette.mode === 'dark' ? theme.palette.common.white : theme.palette.text.primary,
   borderRadius: '8px',
-  margin: '4px',
-  padding: '8px',
+  margin: '4px 16px 4px auto',
+  padding: '12px 16px',
+  maxWidth: '70%',
 }));
 
 const BotMessage = styled(ListItem)(({ theme }) => ({
   textAlign: 'left',
-  backgroundColor: '#f1f8e9',
+  color: theme.palette.mode === 'dark' ? theme.palette.common.white : theme.palette.text.primary,
   borderRadius: '8px',
-  margin: '4px',
-  padding: '8px',
+  margin: '4px auto 4px 16px',
+  padding: '12px 16px',
+  maxWidth: '70%',
 }));
 
 const InputArea = styled('div')(({ theme }) => ({
@@ -63,9 +66,9 @@ const ChatComponent = () => {
   const handleSubmit = async () => {
     const userMessage = { text: prompt, isUser: true };
     setChatHistory([...chatHistory, userMessage]);
-
+    setPrompt('');
     try {
-      const response = await fetch('https://study-buddy-max.netlify.app/api/open-question', {
+      const response = await fetch('https://study-buddy-max.netlify.app/.netlify/functions/server/api/open-question', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -85,8 +88,6 @@ const ChatComponent = () => {
       const errorMessage = { text: 'Error: Unable to get response from server.', isUser: false };
       setChatHistory((prevHistory) => [...prevHistory, errorMessage]);
     }
-
-    setPrompt('');
   };
 
   return (
