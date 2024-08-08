@@ -12,7 +12,7 @@ const router = express.Router();
 
 
 const corsOptions = {
-    origin: 'https://studybuddy-techtea.netlify.app',
+    origin: process.env.REDIRECT_SIGN_IN,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
   };
@@ -45,9 +45,9 @@ router.post('/api/open-question', async (req, res) => {
 
 app.get('/api/config', (req, res) => {
   res.json({
-    userPoolId: process.env.REACT_APP_USER_POOL_ID,
-    userPoolClientId: process.env.REACT_APP_USER_POOL_CLIENT_ID,
-    redirectSignIn: process.env.REACT_APP_REDIRECT_SIGN_IN,
+    userPoolId: process.env.USER_POOL_ID,
+    userPoolClientId: process.env.USER_POOL_CLIENT_ID,
+    redirectSignIn: process.env.REDIRECT_SIGN_IN,
   });
 });
 
