@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
-import { Authenticator } from '@aws-amplify/ui-react';
+// import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 const darkTheme = createTheme({
@@ -19,7 +19,7 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Authenticator>
+      {/* <Authenticator>
         {({ signOut, user }) => (
           <div className="App">
             <Router>
@@ -33,18 +33,18 @@ function App() {
             </Router>
           </div>
         )}
-      </Authenticator>
-      {/* <div className="App">
-            <Router>
-              <AppHeader signOut={undefined} user={undefined} />
-              <div style={{ paddingTop: '48px' }}>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/chat/:id?" element={<ChatComponent />} />
-                </Routes>
-              </div>
-            </Router>
-          </div> */}
+      </Authenticator> */}
+      <div className="App">
+        <Router>
+          <AppHeader signOut={undefined} user={undefined} />
+          <div style={{ paddingTop: '48px' }}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/chat/:id?" element={<ChatComponent />} />
+            </Routes>
+          </div>
+        </Router>
+      </div>
     </ThemeProvider>
   );
 }
