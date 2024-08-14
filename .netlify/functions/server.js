@@ -10,14 +10,19 @@ const router = express.Router();
 
 const allowedOrigins = [process.env.REDIRECT_SIGN_IN, 'http://localhost:3000'];
 
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   allowedHeaders: ['Content-Type', 'Authorization']
+// };
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
@@ -94,8 +99,8 @@ router.get('/api/config', (req, res) => {
 
 app.use(bodyParser.json());
 app.options('*', cors(corsOptions)); // Handle preflight requests
-//app.use(cors(corsOptions));
-app.use(cors()); // This allows all origins for testing
+app.use(cors(corsOptions));
+// app.use(cors()); // This allows all origins for testing
 app.use('/.netlify/functions/server', router);  // path must route to lambda
 
 module.exports = app;
