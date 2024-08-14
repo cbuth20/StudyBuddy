@@ -21,8 +21,6 @@ const corsOptions = {
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
-app.use(bodyParser.json());
-app.use(cors(corsOptions));
 
 const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_API_KEY
@@ -48,6 +46,44 @@ router.post('/api/open-question', async (req, res) => {
   }
 });
 
+// New endpoint for evaluating code against the problem
+router.post('/api/evaluate-code', async (req, res) => {
+  const { code, language, problem } = req.body;
+
+  // Construct a prompt to evaluate the code against the problem description and examples
+  const evaluationPrompt = `
+  Evaluate the following code in ${language}:
+  
+  Code:
+  ${code}
+
+  Problem description:
+  ${problem.description}
+
+  Example to test:
+  ${problem.example}
+
+  Please check if the code correctly solves the problem. Provide feedback and the result of running the provided example.
+  `;
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: 'user', content: evaluationPrompt }],
+      max_tokens: 500,
+    });
+    if (response && response.choices && response.choices[0]) {
+      const content = response.choices[0].message.content.trim();
+      res.json({ message: content });
+    } else {
+      res.status(500).json({ error: 'Invalid response format' });
+    }
+  } catch (error) {
+    console.error('Error with code evaluation:', error.response ? error.response.data : error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 router.get('/api/config', (req, res) => {
   res.json({
     userPoolId: process.env.USER_POOL_ID,
@@ -57,6 +93,8 @@ router.get('/api/config', (req, res) => {
 });
 
 app.use(bodyParser.json());
+app.options('*', cors(corsOptions)); // Handle preflight requests
+app.use(cors(corsOptions));
 app.use('/.netlify/functions/server', router);  // path must route to lambda
 
 module.exports = app;
