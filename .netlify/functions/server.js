@@ -10,20 +10,15 @@ const router = express.Router();
 
 const allowedOrigins = [process.env.REDIRECT_SIGN_IN, 'http://localhost:3000'];
 
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization']
-// };
 const corsOptions = {
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 
@@ -41,17 +36,20 @@ router.post('/api/open-question', async (req, res) => {
     });
     if (response && response.choices && response.choices[0]) {
       const content = response.choices[0].message.content.trim();
+      res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+      res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
       res.json({ response: content });
     } else {
       res.status(500).json({ error: 'Invalid response format' });
     }
   } catch (error) {
     console.error('Error with open question:', error.response ? error.response.data : error.message);
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.status(500).json({ error: error.message });
   }
 });
 
-// New endpoint for evaluating code against the problem
 router.post('/api/evaluate-code', async (req, res) => {
   const { code, language, problem } = req.body;
 
@@ -79,12 +77,16 @@ router.post('/api/evaluate-code', async (req, res) => {
     });
     if (response && response.choices && response.choices[0]) {
       const content = response.choices[0].message.content.trim();
+      res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+      res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
       res.json({ message: content });
     } else {
       res.status(500).json({ error: 'Invalid response format' });
     }
   } catch (error) {
     console.error('Error with code evaluation:', error.response ? error.response.data : error.message);
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.status(500).json({ error: error.message });
   }
 });
@@ -98,9 +100,11 @@ router.get('/api/config', (req, res) => {
 });
 
 app.use(bodyParser.json());
-app.options('*', cors(corsOptions)); // Handle preflight requests
+
+// Handle preflight requests
+router.options('*', cors(corsOptions));
+
 app.use(cors(corsOptions));
-// app.use(cors()); // This allows all origins for testing
 app.use('/.netlify/functions/server', router);  // path must route to lambda
 
 module.exports = app;
