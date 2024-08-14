@@ -27,11 +27,9 @@ const ChatArea = styled('div')(({ theme }) => ({
 }));
 
 const ChatComponent = () => {
-  const [selectedConcept, setSelectedConcept] = useState(null);
   const [problemData, setProblemData] = useState(null);
 
   const handleConceptSelect = async (concept) => {
-    setSelectedConcept(concept);
 
     const prompt = `Create me a ${concept} coding problem. Include a description, and 2 examples input and expected outputs. Give me the response in the following JSON format: {description: <description here>, example: <example here> }.`;
 
