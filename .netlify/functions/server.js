@@ -94,7 +94,8 @@ router.get('/api/config', (req, res) => {
 
 app.use(bodyParser.json());
 app.options('*', cors(corsOptions)); // Handle preflight requests
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
+app.use(cors()); // This allows all origins for testing
 app.use('/.netlify/functions/server', router);  // path must route to lambda
 
 module.exports = app;
