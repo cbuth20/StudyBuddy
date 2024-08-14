@@ -19,6 +19,10 @@ const pages = [
         name: 'Chat',
         value: 'chat'
     },
+    {
+      name: 'Study',
+      value: 'study'
+    }
 ];
 
 function AppHeader({signOut, user}) {
@@ -56,7 +60,7 @@ function AppHeader({signOut, user}) {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container maxWidth={false}>
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography

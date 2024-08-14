@@ -2,6 +2,7 @@ import React from 'react';
 import ChatComponent from './ChatComponent';
 import AppHeader from './AppHeader';
 import HomePage from './HomePage';
+import StudyComponent from './StudyComponent';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -41,6 +42,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/chat/:id?" element={<ChatComponent />} />
+              <Route path="/study" element={<StudyComponent />} />
             </Routes>
           </div>
         </Router>

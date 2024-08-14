@@ -31,12 +31,12 @@ export default function HomePage() {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small" onClick={() => handleNav('chat')}>
+                    <Button size="small" onClick={() => handleNav('study')}>
                     Start something new
                     </Button>
                 </CardActions>
                 </Card>
-            </Box>             
+            </Box>           
         </div>
     )
 }

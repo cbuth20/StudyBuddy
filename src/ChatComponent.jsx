@@ -9,6 +9,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import CodeEditor from './CodeEditor';
 
 const ChatContainer = styled(Container)(({ theme }) => ({
   display: 'flex',
